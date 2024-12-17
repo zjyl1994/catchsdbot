@@ -1,0 +1,17 @@
+catch:
+    - name: SilentDepth
+      emoji: 🐧
+      short_hand: sd
+      catch_dict: penguin
+      food_require: 1
+
+food:
+    - name: 鱼
+      food_dict: fish
+      food_value: 1
+
+factory:
+    - name: 企鹅渔场
+      factory_dict: fish_farm
+      product: 
+          - fish

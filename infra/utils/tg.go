@@ -4,7 +4,7 @@ import (
 	"strings"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
-	"github.com/zjyl1994/catchsdbot/vars"
+	"github.com/zjyl1994/catchsdbot/infra/vars"
 )
 
 const PARSE_MODE_MARKDOWN = "MarkdownV2"
