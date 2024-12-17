@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/sirupsen/logrus"
-	"github.com/zjyl1994/catchsdbot/startup"
+	"github.com/zjyl1994/catchsdbot/infra/startup"
 )
 
 func main() {
