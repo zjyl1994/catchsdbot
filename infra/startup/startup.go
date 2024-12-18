@@ -8,8 +8,8 @@ import (
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	_ "github.com/joho/godotenv/autoload"
+	gorm_logrus "github.com/onrik/gorm-logrus"
 	"github.com/sirupsen/logrus"
-	"github.com/zjyl1994/catchsdbot/infra/gamedata"
 	"github.com/zjyl1994/catchsdbot/infra/vars"
 	"github.com/zjyl1994/catchsdbot/server"
 	"gorm.io/driver/sqlite"
@@ -17,12 +17,6 @@ import (
 )
 
 func Startup() (err error) {
-	// 加载游戏基本数据
-	gd, err := gamedata.Load()
-	if err != nil {
-		return err
-	}
-	vars.GameData = gd
 	// 初始化环境变量内容
 	vars.DebugMode, _ = strconv.ParseBool(os.Getenv("CATCHSD_DEBUG"))
 	if vars.DebugMode {
@@ -45,7 +39,9 @@ func Startup() (err error) {
 	}
 	// 链接数据库
 	databaseFilepath := filepath.Join(vars.DataDir, "catchsd.sqlite")
-	vars.Database, err = gorm.Open(sqlite.Open(databaseFilepath), &gorm.Config{})
+	vars.Database, err = gorm.Open(sqlite.Open(databaseFilepath), &gorm.Config{
+		Logger: gorm_logrus.New(),
+	})
 	if err != nil {
 		return err
 	}
