@@ -8,7 +8,6 @@ require (
 	github.com/joho/godotenv v1.5.1
 	github.com/onrik/gorm-logrus v0.5.0
 	github.com/sirupsen/logrus v1.9.3
-	gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c
 	gorm.io/driver/sqlite v1.5.7
 	gorm.io/gorm v1.25.12
 )
