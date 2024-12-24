@@ -11,7 +11,10 @@ import (
 	gorm_logrus "github.com/onrik/gorm-logrus"
 	"github.com/sirupsen/logrus"
 	"github.com/zjyl1994/catchsdbot/infra/vars"
-	"github.com/zjyl1994/catchsdbot/server"
+	bot_srv "github.com/zjyl1994/catchsdbot/server/bot"
+	http_srv "github.com/zjyl1994/catchsdbot/server/http"
+	"github.com/zjyl1994/catchsdbot/service/stamina"
+	"github.com/zjyl1994/catchsdbot/service/user"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -23,10 +26,11 @@ func Startup() (err error) {
 		logrus.SetLevel(logrus.DebugLevel)
 	}
 	vars.DataDir = os.Getenv("CATCHSD_DATADIR")
-
-	err = os.MkdirAll(vars.DataDir, 0755)
-	if err != nil {
-		return err
+	if vars.DataDir != "" {
+		err = os.MkdirAll(vars.DataDir, 0755)
+		if err != nil {
+			return err
+		}
 	}
 
 	vars.ListenAddr = os.Getenv("CATCHSD_LISTEN")
@@ -54,13 +58,17 @@ func Startup() (err error) {
 	if err != nil {
 		return err
 	}
+	err = vars.Database.AutoMigrate(&user.User{}, &stamina.Stamina{})
+	if err != nil {
+		return err
+	}
 	// 启动bot实例
 	vars.BotInstance, err = tgbotapi.NewBotAPI(vars.BotToken)
 	if err != nil {
 		return err
 	}
 	vars.BotInstance.Debug = vars.DebugMode
-	server.StartBot()
+	bot_srv.StartBot()
 	// 启动http服务
-	return server.Run(vars.ListenAddr)
+	return http_srv.Run(vars.ListenAddr)
 }

@@ -1,4 +1,4 @@
-package server
+package bot
 
 import (
 	"strings"
@@ -6,7 +6,9 @@ import (
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"github.com/sirupsen/logrus"
+	"github.com/zjyl1994/catchsdbot/infra/utils"
 	"github.com/zjyl1994/catchsdbot/infra/vars"
+	"github.com/zjyl1994/catchsdbot/service/user"
 )
 
 var botThread sync.Mutex
@@ -40,13 +42,30 @@ func botMain() {
 			continue
 		}
 
-		commandDispatcher(update.Message)
+		err := commandDispatcher(update.Message)
+		if err != nil {
+			logrus.Errorln(err)
+			utils.ReplyTextToTelegram(update.Message, "发生错误，请联系管理员", false)
+		}
 	}
 }
 
-func commandDispatcher(msg *tgbotapi.Message) {
+func commandDispatcher(msg *tgbotapi.Message) error {
 	command := msg.Command()
 	args := strings.Fields(msg.CommandArguments())
 	logrus.Debugln("Received", command, args)
 
+	switch command {
+	case "getsp":
+		return handleGetSP(msg)
+	default:
+		utils.ReplyTextToTelegram(msg, "未知命令", false)
+		return nil
+	}
+}
+
+func getUser(msg *tgbotapi.Message) (*user.User, error) {
+	tgUserId := msg.From.ID
+	tgUserName := msg.From.FirstName + " " + msg.From.LastName
+	return user.GetOrCreateByTgUser(tgUserId, tgUserName)
 }
