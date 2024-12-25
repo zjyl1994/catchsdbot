@@ -2,6 +2,7 @@ package user
 
 import (
 	"errors"
+	"time"
 
 	"github.com/zjyl1994/catchsdbot/infra/vars"
 	"gorm.io/gorm"
@@ -13,6 +14,7 @@ func GetOrCreateByTgUser(tgUserId int64, tgUserName string) (*User, error) {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			user.TgUserId = tgUserId
 			user.TgUserName = tgUserName
+			user.LastTick = time.Now().Unix()
 			if err := vars.Database.Create(user).Error; err != nil {
 				return nil, err
 			}

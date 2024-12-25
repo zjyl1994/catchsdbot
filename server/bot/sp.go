@@ -21,9 +21,9 @@ func handleGetSP(msg *tgbotapi.Message) error {
 	remainSec := sp.RemainSecond()
 	var msgText string
 	if remainSec > 0 {
-		msgText = fmt.Sprintf("当前体力为：%d,距离恢复下一点还有%d秒。", current, remainSec)
+		msgText = fmt.Sprintf("当前SP剩余%d,距离恢复下一点还有%d秒。", current, remainSec)
 	} else {
-		msgText = fmt.Sprintf("当前体力为：%d,已达到自然恢复上限。", current)
+		msgText = fmt.Sprintf("当前SP剩余%d,已达到自然恢复上限。", current)
 	}
 	return utils.ReplyTextToTelegram(msg, msgText, false)
 }
