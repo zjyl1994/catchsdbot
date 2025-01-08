@@ -2,7 +2,8 @@ package stamina
 
 import (
 	"errors"
-	"sync"
+
+	"github.com/zjyl1994/catchsdbot/infra/utils/kmutex"
 )
 
 const (
@@ -11,6 +12,6 @@ const (
 )
 
 var (
-	globalSPLock sync.Mutex //全局体力锁，后期性能不佳时改为用户级锁
-	ErrNotEnough = errors.New("not enough stamina point")
+	spLock       = kmutex.NewInt64Kmutex(0) //体力锁
+	ErrNotEnough = errors.New("体力不足")
 )

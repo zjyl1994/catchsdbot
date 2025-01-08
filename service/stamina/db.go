@@ -2,6 +2,7 @@ package stamina
 
 import (
 	"errors"
+	"fmt"
 	"time"
 
 	"github.com/zjyl1994/catchsdbot/infra/vars"
@@ -24,18 +25,19 @@ func GetStaminPoint(userId int64) (*Stamina, error) {
 }
 
 func UseStaminPoint(userId int64, cost int64) (*Stamina, error) {
-	globalSPLock.Lock()
-	defer globalSPLock.Unlock()
+	spLock.Lock(userId)
+	defer spLock.Unlock(userId)
 
 	sp, err := GetStaminPoint(userId)
 	if err != nil {
 		return nil, err
 	}
 	// 计算并扣减能量
-	remainEnergy := sp.Current() - cost
+	current := sp.Current()
+	remainEnergy := current - cost
 	// 检查是否扣完
 	if remainEnergy < 0 {
-		return sp, ErrNotEnough
+		return sp, fmt.Errorf("%w: 当前体力 %d,行动需要体力 %d", ErrNotEnough, current, cost)
 	}
 	// 新体力写入DB
 	sp.LastSP = remainEnergy
