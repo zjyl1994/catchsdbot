@@ -13,6 +13,7 @@ import (
 	"github.com/zjyl1994/catchsdbot/infra/vars"
 	bot_srv "github.com/zjyl1994/catchsdbot/server/bot"
 	http_srv "github.com/zjyl1994/catchsdbot/server/http"
+	"github.com/zjyl1994/catchsdbot/service/cargo"
 	"github.com/zjyl1994/catchsdbot/service/stamina"
 	"github.com/zjyl1994/catchsdbot/service/user"
 	"gorm.io/driver/sqlite"
@@ -58,7 +59,7 @@ func Startup() (err error) {
 	if err != nil {
 		return err
 	}
-	err = vars.Database.AutoMigrate(&user.User{}, &stamina.Stamina{})
+	err = vars.Database.AutoMigrate(&user.User{}, &stamina.Stamina{}, &cargo.CargoItem{})
 	if err != nil {
 		return err
 	}
