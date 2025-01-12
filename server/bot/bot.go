@@ -29,6 +29,8 @@ func botMain() {
 
 	updates := vars.BotInstance.GetUpdatesChan(u)
 
+	logrus.Infoln("Bot started")
+
 	for update := range updates {
 		if update.Message == nil {
 			continue
@@ -58,6 +60,8 @@ func commandDispatcher(msg *tgbotapi.Message) error {
 	switch command {
 	case "getsp":
 		return handleGetSP(msg)
+	case "catchsd":
+		return handleCatchSd(msg)
 	default:
 		utils.ReplyTextToTelegram(msg, "未知命令", false)
 		return nil

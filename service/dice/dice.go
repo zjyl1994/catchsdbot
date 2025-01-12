@@ -11,15 +11,15 @@ func Roll() int {
 	return rand.IntN(6) + 1
 }
 
-func getDicePos[T any](result int, arr []T) T {
+func GetByDiceResult[T any](result int, arr []T) T {
 	percent := float64(result) / float64(6)
 	return arr[int(percent*float64(len(arr)))]
 }
 
 func GetDiceBuff(result int) float64 {
-	return getDicePos(result, DiceBuff)
+	return GetByDiceResult(result, DiceBuff)
 }
 
 func GetDiceMessage(result int) string {
-	return getDicePos(result, DiceMessage)
+	return GetByDiceResult(result, DiceMessage)
 }
