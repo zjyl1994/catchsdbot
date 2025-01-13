@@ -71,6 +71,8 @@ func commandDispatcher(msg *tgbotapi.Message) error {
 		return handleCatchSd10(msg)
 	case "catchsdall":
 		return handleCatchSdAll(msg)
+	case "my":
+		return handleMyStat(msg)
 	default:
 		utils.ReplyTextToTelegram(msg, "未知命令", false)
 		return nil
