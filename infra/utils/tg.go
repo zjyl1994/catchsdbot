@@ -19,6 +19,14 @@ func ReplyTextToTelegram(input *tgbotapi.Message, text string, markdown bool) er
 	return err
 }
 
+func ReplyStickerToTelegram(input *tgbotapi.Message, stickerId string) error {
+	sticker := tgbotapi.FileID(stickerId)
+	msg := tgbotapi.NewSticker(input.Chat.ID, sticker)
+	msg.ReplyToMessageID = input.MessageID
+	_, err := vars.BotInstance.Send(msg)
+	return err
+}
+
 func EscapeTelegramMarkdown(input string) string {
 	var builder strings.Builder
 	for _, char := range input {
