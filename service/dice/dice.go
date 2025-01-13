@@ -3,8 +3,8 @@ package dice
 import "math/rand/v2"
 
 var (
-	DiceMessage = []string{"厄运缠身", "一波三折", "风平浪静", "一帆风顺", "好运相随"}
-	DiceBuff    = []float64{-.5, -.2, 0, .2, .5}
+	DiceMessage = []string{"深渊迷航", "一波三折", "风平浪静", "一帆风顺", "好运相随"}
+	DiceBuff    = []float64{-.3, -.2, -.15, -.05, 0, .05, .15, .2, .3}
 )
 
 const DiceFace = 100

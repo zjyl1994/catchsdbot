@@ -92,14 +92,15 @@ func handleCatchSdWithNum(msg *tgbotapi.Message, userId int64, catchNum int) err
 		return err
 	}
 	var sb strings.Builder
+	sb.WriteString("本次共捕捉到")
+	sb.WriteString(strconv.Itoa(result.Result))
+	sb.WriteString("个企鹅\n\n")
 	sb.WriteString("*ROLL*")
 	sb.WriteString(utils.EscapeTelegramMarkdown("(100)="))
 	sb.WriteString(strconv.Itoa(result.Dice))
-	sb.WriteString("\n\n")
+	sb.WriteString("\n")
 	sb.WriteString(result.Message)
-	sb.WriteString("\n\n本次共捕捉到")
-	sb.WriteString(strconv.Itoa(result.Result))
-	sb.WriteString("个企鹅\n\n")
+	sb.WriteString("\n\n")
 	sb.WriteString(sp.String())
 	return utils.ReplyTextToTelegram(msg, sb.String(), true)
 }

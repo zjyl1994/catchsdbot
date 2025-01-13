@@ -19,11 +19,11 @@ type CatchSdResult struct {
 
 var (
 	catchsdMessage = []string{
-		"深渊迷航，你的企鹅在路上折损大半",
-		"一波三折，尽管有些企鹅中途逃离，但你还是成功回来了",
-		"风平浪静，你成功的带回了属于你的企鹅",
-		"一帆风顺，路上有些企鹅加入了你的队伍",
-		"好运相随，幸运的人总是能获得更多企鹅",
+		"你的企鹅在路上折损大半",
+		"尽管有些企鹅中途逃离，但你还是成功回来了",
+		"你成功的带回了属于你的企鹅",
+		"路上有些企鹅加入了你的队伍",
+		"幸运的人总是能获得更多企鹅",
 	}
 )
 
@@ -37,7 +37,7 @@ func CatchSd(userId int64, num int) (*CatchSdResult, error) {
 	// 扔骰子决定本次的结果
 	result.Dice = dice.Roll()
 	result.Result = int((1 + dice.GetDiceBuff(result.Dice)) * float64(num))
-	result.Message = dice.GetByDiceResult(result.Dice, catchsdMessage)
+	result.Message = "*" + dice.GetDiceMessage(result.Dice) + "*," + dice.GetByDiceResult(result.Dice, catchsdMessage)
 	// 写入库存
 	err = vars.Database.Transaction(func(tx *gorm.DB) error {
 		amount, err := cargo.GetCargoItem(tx, userId, cargo.ITEM_PENGUIN)
