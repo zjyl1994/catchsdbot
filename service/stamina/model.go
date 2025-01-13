@@ -8,7 +8,7 @@ import (
 
 type Stamina struct {
 	ID       int64 `gorm:"primaryKey"`
-	UserId   int64 `gorm:"unique,column:user_id"`
+	UserId   int64 `gorm:"uniqueIndex,column:user_id"`
 	LastTick int64
 	LastSP   int64
 }

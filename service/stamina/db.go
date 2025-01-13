@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/zjyl1994/catchsdbot/infra/utils"
 	"github.com/zjyl1994/catchsdbot/infra/vars"
 	"gorm.io/gorm"
 )
@@ -37,7 +38,7 @@ func UseStaminPoint(userId int64, cost int64) (*Stamina, error) {
 	remainEnergy := current - cost
 	// 检查是否扣完
 	if remainEnergy < 0 {
-		return sp, fmt.Errorf("%w: 当前体力 %d,行动需要体力 %d", ErrNotEnough, current, cost)
+		return sp, utils.NewBizErr(fmt.Sprintf("当前体力 %d,行动需要体力 %d", current, cost), ErrNotEnough)
 	}
 	// 新体力写入DB
 	sp.LastSP = remainEnergy
@@ -48,4 +49,19 @@ func UseStaminPoint(userId int64, cost int64) (*Stamina, error) {
 		return nil, err
 	}
 	return sp, nil
+}
+
+func AddStaminPoint(userId int64, amount int64) error {
+	spLock.Lock(userId)
+	defer spLock.Unlock(userId)
+
+	sp, err := GetStaminPoint(userId)
+	if err != nil {
+		return err
+	}
+
+	sp.LastSP = sp.Current() + amount
+	sp.LastTick = time.Now().Unix()
+
+	return vars.Database.Save(sp).Error
 }

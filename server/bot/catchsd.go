@@ -29,13 +29,13 @@ func handleCatchSd(msg *tgbotapi.Message) error {
 	} else {
 		catchNum, err = strconv.Atoi(args)
 		if err != nil {
-			return utils.ReplyTextToTelegram(msg, "参数错误："+args, false)
+			return utils.ReplyTextToTelegram(msg, "无法解析 "+args, false)
 		}
 	}
 	result, err := controller.CatchSd(u.ID, catchNum)
 	if err != nil {
 		return err
 	}
-	resultMsg := fmt.Sprintf("**ROLL**\\(6\\)\\=%d\n%s\n本次共捕捉到%d个企鹅\n现有鹅口%d", result.Dice, result.Message, result.Result, result.Amount)
-	return utils.ReplyTextToTelegram(msg, resultMsg, false)
+	resultMsg := fmt.Sprintf("**ROLL**\\(6\\)\\=%d\n%s\n本次共捕捉到%d个企鹅\n\n现有鹅口%d", result.Dice, result.Message, result.Result, result.Amount)
+	return utils.ReplyTextToTelegram(msg, resultMsg, true)
 }

@@ -63,6 +63,7 @@ func Startup() (err error) {
 	if err != nil {
 		return err
 	}
+	defer sqlDB.Close()
 	logrus.Infoln("Init finished.")
 	// 启动bot实例
 	vars.BotInstance, err = tgbotapi.NewBotAPI(vars.BotToken)

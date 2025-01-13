@@ -46,8 +46,13 @@ func botMain() {
 
 		err := commandDispatcher(update.Message)
 		if err != nil {
-			logrus.Errorln(err)
-			utils.ReplyTextToTelegram(update.Message, "发生错误，请联系管理员", false)
+			errMsg := "发生错误，请联系管理员"
+			if bizErr, ok := err.(utils.BizErr); ok {
+				errMsg = bizErr.GetBizMsg()
+			} else {
+				logrus.Errorln(err)
+			}
+			utils.ReplyTextToTelegram(update.Message, errMsg, false)
 		}
 	}
 }

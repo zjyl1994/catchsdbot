@@ -12,7 +12,7 @@ func Roll() int {
 }
 
 func GetByDiceResult[T any](result int, arr []T) T {
-	percent := float64(result) / float64(6)
+	percent := float64(result-1) / float64(6)
 	return arr[int(percent*float64(len(arr)))]
 }
 
