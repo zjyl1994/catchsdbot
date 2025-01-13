@@ -26,6 +26,8 @@ func Startup() (err error) {
 	if vars.DebugMode {
 		logrus.SetLevel(logrus.DebugLevel)
 	}
+	vars.AdminUser = os.Getenv("CATCHSD_ADMINUSER")
+	vars.AdminPass = os.Getenv("CATCHSD_ADMINPASS")
 	vars.DataDir = os.Getenv("CATCHSD_DATADIR")
 	if vars.DataDir != "" {
 		err = os.MkdirAll(vars.DataDir, 0755)

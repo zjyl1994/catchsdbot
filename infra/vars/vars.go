@@ -8,6 +8,9 @@ import (
 var (
 	DebugMode bool
 
+	AdminUser string
+	AdminPass string
+
 	DataDir    string
 	ListenAddr string
 
