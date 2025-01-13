@@ -93,7 +93,7 @@ func handleCatchSdWithNum(msg *tgbotapi.Message, userId int64, catchNum int) err
 	}
 	var sb strings.Builder
 	sb.WriteString("*ROLL*")
-	sb.WriteString(utils.EscapeTelegramMarkdown("(6)="))
+	sb.WriteString(utils.EscapeTelegramMarkdown("(100)="))
 	sb.WriteString(strconv.Itoa(result.Dice))
 	sb.WriteString("\n\n")
 	sb.WriteString(result.Message)

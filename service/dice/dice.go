@@ -3,16 +3,18 @@ package dice
 import "math/rand/v2"
 
 var (
-	DiceMessage = []string{"好运相随", "一帆风顺", "风平浪静", "一波三折", "厄运缠身"}
-	DiceBuff    = []float64{.5, .2, 0, -.2, -.5}
+	DiceMessage = []string{"厄运缠身", "一波三折", "风平浪静", "一帆风顺", "好运相随"}
+	DiceBuff    = []float64{-.5, -.2, 0, .2, .5}
 )
 
+const DiceFace = 100
+
 func Roll() int {
-	return rand.IntN(6) + 1
+	return rand.IntN(DiceFace) + 1
 }
 
 func GetByDiceResult[T any](result int, arr []T) T {
-	percent := float64(result-1) / float64(6)
+	percent := float64(result-1) / float64(DiceFace)
 	return arr[int(percent*float64(len(arr)))]
 }
 
